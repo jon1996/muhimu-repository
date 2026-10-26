@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.beta
+.env.*.local
+*.sqlite3
+
+# Certificats TLS bêta (self-signed locaux)
+deploy/beta/certs/*.crt
+deploy/beta/certs/*.key
+deploy/beta/certs/*.pem
+
+# Node
+node_modules/
+.next/
+out/
+frontend/.env*.local
+
+# Sauvegardes PostgreSQL locales (hors VHDX Docker)
+backups/
+
+# Pièces justificatives
+backend/media/
+
+# Docker / OS
+.docker/
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,8 @@
+# Override TEMPORAIRE — démarrage backend sans migrate / bootstrap_demo.
+# Usage :
+#   docker compose -p muhimuerp -f docker-compose.yml -f docker-compose.runserver-only.yml up -d --no-build backend
+# Ne remplace pas docker-compose.yml ; n'affecte pas les volumes.
+
+services:
+  backend:
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]

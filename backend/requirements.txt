@@ -1,0 +1,9 @@
+Django==5.2.5
+django-ninja==1.4.3
+django-cors-headers==4.7.0
+psycopg[binary]==3.2.9
+gunicorn==23.0.0
+python-dotenv==1.1.1
+redis==6.4.0
+reportlab==4.4.4
+pillow==12.3.0

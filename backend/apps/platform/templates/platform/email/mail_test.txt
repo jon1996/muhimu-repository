@@ -1,0 +1,7 @@
+Ceci est un e-mail de test envoyé depuis la console Muhimu.
+
+Destinataire : {{ to }}
+Expéditeur : {{ from_email }}
+Serveur : {{ host }}:{{ port }} (mode {{ mode }})
+
+Si vous lisez ce message, SMTP fonctionne.

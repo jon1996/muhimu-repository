@@ -1,0 +1,40 @@
+# Environnement TEMPORAIRE de restauration OPS-01.
+# Projet Compose obligatoire : muhimu-ops-restore
+# Ne jamais pointer vers muhimuerp / muhimu-beta.
+# Ne pas supprimer le volume sans autorisation explicite.
+#
+# Usage:
+#   docker compose -p muhimu-ops-restore -f docker-compose.ops-restore.yml up -d
+#   # ... restore + validations ...
+#   # Arrêt sans -v (conserve le volume jusqu'à autorisation) :
+#   docker compose -p muhimu-ops-restore -f docker-compose.ops-restore.yml down
+
+name: muhimu-ops-restore
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: muhimu
+      # Mot de passe cluster temporaire uniquement. Sur volume déjà initialisé, PG ignore cette valeur.
+      POSTGRES_PASSWORD: ${OPS_RESTORE_PG_PASSWORD:-ops_restore_temp_lab_only}
+      POSTGRES_DB: muhimu_restore
+    volumes:
+      - ops_restore_pgdata:/var/lib/postgresql/data
+    ports:
+      - "${OPS_RESTORE_PG_PORT:-5439}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U muhimu -d muhimu_restore"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    networks:
+      - ops_restore_net
+
+volumes:
+  ops_restore_pgdata:
+    name: muhimu_ops_restore_pgdata
+
+networks:
+  ops_restore_net:
+    name: muhimu_ops_restore_net

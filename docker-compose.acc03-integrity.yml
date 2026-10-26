@@ -1,0 +1,67 @@
+# Environnement TEMPORAIRE ACC-03 — PostgreSQL 16 isolé.
+# Projet Compose obligatoire : muhimu-acc03
+# Ne jamais pointer vers muhimuerp / muhimu-beta / muhimu-ops-restore.
+# Ne pas appliquer les migrations ACC-03 sur DEV/bêta depuis cet environnement
+# sans autorisation explicite (ici : migrate uniquement sur ce cluster).
+#
+# Usage :
+#   docker compose -p muhimu-acc03 -f docker-compose.acc03-integrity.yml up -d
+#   # tests (voir docs/audit/ACC03_SQL_INTEGRITY_REPORT.md)
+#   docker compose -p muhimu-acc03 -f docker-compose.acc03-integrity.yml down
+#   # volume conservé tant que -v n'est pas utilisé
+
+name: muhimu-acc03
+
+services:
+  db_acc03:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: muhimu
+      POSTGRES_PASSWORD: ${ACC03_PG_PASSWORD:-acc03_temp_lab_only}
+      POSTGRES_DB: muhimu_acc03
+    volumes:
+      - acc03_pgdata:/var/lib/postgresql/data
+    ports:
+      - "${ACC03_PG_PORT:-5440}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U muhimu -d muhimu_acc03"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    networks:
+      - acc03_net
+
+  # One-shot : migrate / test — ne touche pas DEV/bêta.
+  test_runner:
+    image: muhimu-erp-api
+    profiles: ["test"]
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    environment:
+      POSTGRES_HOST: db_acc03
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: muhimu_acc03
+      POSTGRES_USER: muhimu
+      POSTGRES_PASSWORD: ${ACC03_PG_PASSWORD:-acc03_temp_lab_only}
+      POSTGRES_APP_USER: muhimu_app
+      POSTGRES_APP_PASSWORD: ${ACC03_PG_PASSWORD:-acc03_temp_lab_only}
+      POSTGRES_PLATFORM_USER: muhimu_platform
+      POSTGRES_PLATFORM_PASSWORD: ${ACC03_PG_PASSWORD:-acc03_temp_lab_only}
+      SECRET_KEY: acc03-test-secret-not-for-prod
+      DEBUG: "1"
+      APP_ROLE: erp
+      DJANGO_SETTINGS_MODULE: config.settings
+    depends_on:
+      db_acc03:
+        condition: service_healthy
+    networks:
+      - acc03_net
+
+volumes:
+  acc03_pgdata:
+    name: muhimu_acc03_pgdata
+
+networks:
+  acc03_net:
+    name: muhimu_acc03_net

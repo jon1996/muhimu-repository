@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <body style="margin:0;padding:0;background:#f4f7fb;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#0b1220;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f7fb;padding:32px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="560" cellspacing="0" cellpadding="0" style="max-width:560px;background:#ffffff;border-radius:12px;overflow:hidden;">
+            <tr>
+              <td style="background:#0A66FF;padding:20px 28px;color:#ffffff;">
+                <p style="margin:0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;">Muhimu</p>
+                <p style="margin:6px 0 0;font-size:22px;font-weight:600;">Votre accès ERP</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px;">
+                <p style="margin:0 0 16px;font-size:15px;">Bonjour {{ full_name }},</p>
+                <p style="margin:0 0 16px;font-size:15px;line-height:1.5;">
+                  Un accès à <strong>Muhimu ERP</strong> vous a été ouvert. Conservez ce mot de passe temporaire, puis changez-le après connexion.
+                </p>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f4f7fb;border-radius:8px;margin:0 0 20px;">
+                  <tr>
+                    <td style="padding:16px 20px;font-size:14px;line-height:1.7;">
+                      <strong>Email</strong><br />{{ email }}<br /><br />
+                      <strong>Mot de passe temporaire</strong><br />
+                      <span style="font-family:Consolas,Menlo,monospace;font-size:15px;">{{ password }}</span><br /><br />
+                      <strong>Dossiers</strong><br />{{ scope_txt }}
+                    </td>
+                  </tr>
+                </table>
+                <p style="margin:0 0 24px;">
+                  <a href="{{ login_url }}" style="display:inline-block;background:#0A66FF;color:#ffffff;text-decoration:none;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;">
+                    Ouvrir Muhimu ERP
+                  </a>
+                </p>
+                <p style="margin:0;font-size:12px;color:#5b6578;">Si le bouton ne fonctionne pas : {{ login_url }}</p>
+              </td>
+            </tr>
+          </table>
+          <p style="margin:16px 0 0;font-size:11px;color:#8a93a5;">© {{ year }} Muhimu · Comptabilité SYSCOHADA</p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

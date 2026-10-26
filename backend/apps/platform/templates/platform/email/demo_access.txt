@@ -1,0 +1,12 @@
+Bonjour {{ full_name }},
+
+Un accès à Muhimu ERP vous a été ouvert.
+
+Adresse : {{ login_url }}
+Email : {{ email }}
+Mot de passe temporaire : {{ password }}
+Dossiers : {{ scope_txt }}
+
+Connectez-vous, choisissez un dossier, puis saisissez.
+
+— L'équipe Muhimu
